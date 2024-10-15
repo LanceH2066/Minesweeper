@@ -7,11 +7,15 @@
     <title>Minesweeper</title>
     <link href="css/game.css" rel="stylesheet" />
     <script src="js/game.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body onload="startGame();">
-    <a href="index.html" class="button">Main Menu</a>   <!-- Main Menu  -->
-    <a href="game.html" class="button">Restart</a>      <!-- Restart Game -->
+    <div id = "topBar">
+        <img id="logo" src="./img/Fresno State.PNG">
+        <a href="index.html" class="inGameLinks">Main Menu</a>   <!-- Main Menu  -->
+        <a href="game.html" class="inGameLinks">Restart</a>      <!-- Restart Game -->
+    </div>
 
     <h1>Mines: <span id="mines-count">0</span></h1>
     <div id="board"></div>
