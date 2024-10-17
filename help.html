@@ -5,10 +5,47 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper Help</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <a href="index.html" class="button">Main Menu</a>   <!-- Main Menu  -->
+    <div id = "topBar">
+        <img id="logo" src="./img/Fresno State.PNG">
+        <a href="index.html" class="inGameLinks">Main Menu</a>
+    </div>
+
+    <div class="container">
+
+        <h1>How To Play</h1>
+
+        <div id = "listContainer">
+            <h2>Reveal Tiles</h2>
+            <ul>
+                <li>Left click a tile to reveal what's underneath.</li>
+                <li>If the tile is empty, it will uncover adjacent tiles until numbers or edges are reached.</li>
+                <li>If you click a mine, you lose!</li>
+            </ul>
+            <h2>Flag Tiles🚩</h2>
+            <ul>
+                <li>Right-click to place a flag on a tile you suspect contains a mine.</li>
+                <li>Right-click again to remove the flag.</li>
+            </ul>
+            <h2>Number On Tiles</h2>
+            <ul>
+                <li>A number on a tile indicates how many mines are adjacent to it.</li>
+                <li>Use these numbers to figure out where the mines are hidden.</li>
+            </ul>
+            <h2>Winning The Game</h2>
+            <ul>
+                <li>Successfully mark all the mines and uncover all the safe tiles to win the game!</li>
+            </ul>
+        </div>
+
+        <img id ="bulldog" src = "./img/Bulldog.png">
+        <img id ="bomb" src = "./img/Bomb.png">
+
+    </div>
 </body>
 
 </html>

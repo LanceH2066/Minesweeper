@@ -5,10 +5,31 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minesweeper Signup</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <a href="index.html" class="button">Main Menu</a>   <!-- Main Menu  -->
+    <div id = "topBar">
+        <img id="logo" src="./img/Fresno State.PNG">
+        <a href="index.html" class="inGameLinks">Main Menu</a>
+    </div>
+    
+    <h1>Enter Your Information</h1>
+
+    <form class = "userAuth">
+
+        <label for ="username">Username:</label>
+        <input type="text" id="username" name="username">
+
+        <label for ="password">Password:</label>
+        <input type="text" id="password" name="password">
+
+        <button id="userAuthBtn">Signup</button>
+    </form>
+
+    <img id ="bulldog" src = "./img/Bulldog.png">
+    <img id ="bomb" src = "./img/Bomb.png">
 
 </body>
 
