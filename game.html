@@ -7,19 +7,43 @@
     <title>Minesweeper</title>
     <link href="css/style.css" rel="stylesheet" />
     <script src="js/game.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/tile.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
-<body onload="startGame();">
+<body>
     <div id = "topBar">
-        <img id="logo" src="./img/Fresno State.PNG">
+        <a href="index.html">
+            <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
+        </a>        
         <a href="index.html" class="inGameLinks">Main Menu</a>   <!-- Main Menu  -->
-        <a href="game.html" class="inGameLinks">Restart</a>      <!-- Restart Game -->
+        <a href="game.html" class="inGameLinks">New Game</a>      <!-- Restart Game -->
+        <a class = "inGameLinks" onclick="restartGame()">Restart</a>
+    </div>
+
+    <div id = "game-settings">
+        <div id ="difficulty-settings">
+            <h1>Difficulty:</h1>
+            <button class="difficulty-btn" onclick="setDifficulty(this)" value="0">Easy</button>
+            <button class="difficulty-btn" onclick="setDifficulty(this)" value="1">Medium</button>
+            <button class="difficulty-btn" onclick="setDifficulty(this)" value="2">Hard</button>
+        </div>
+
+        <h3 id ="minesError"></h3>
+        
+        <div id="mine-settings">
+            <label for="minesInput"><h1>Mines:</h1></label>
+            <input type="number" id = "minesInput" name="minesInput" value="10">
+        </div>
+
+        <button id= "startGameBtn" onclick="startGame()">Start Game</button>
     </div>
 
     <h1>Mines: <span id="mines-count">0</span></h1>
     <div id="board"></div>
     <br>
+
 
 </body>
 

@@ -1,184 +1,170 @@
-var board = [];
-var rows = 9;
-var columns = 9;
-var tileSize = 50;
-var minesCount = 10;
-var minesLocation = []; //2-2 3-4 2-1 | location on board
-var tilesClicked =0; // goal click all tiles except the ones containing mines
-var flagEnabled = false;
-var gameOver = false;
+// Start the game
+//document.addEventListener("DOMContentLoaded", () => {
+//    const game = new Game(difficulties[2]);
+//});
+let game;
+let currentDifficulty = 0;
 
 function startGame()
 {
-    document.getElementById("mines-count").innerText = minesCount; // show # of mines on screen
-    document.getElementById("board").addEventListener("contextmenu", (e) => {e.preventDefault()}); // disable contexmenu on board (right click)
-    buildBoard();   // Dynamically set size of board container
-    setMines();     // randomize mine positions
-    populateBoard(); // populate board with tiles
-}
-function buildBoard()
-{
-    // Select the board element
-    const boardContainer = document.getElementById("board");
-
-    // Set the dynamic height and width using string concatenation
-    boardContainer.style.height = (rows * tileSize) + "px";
-    boardContainer.style.width = (columns * tileSize) + "px";
-}
-function populateBoard()
-{
-    for(let r = 0; r<rows;r++)
+    let customMines = document.getElementById("minesInput").value;
+    let customDifficulty = difficulties[currentDifficulty];
+    if(customMines < customDifficulty.cols*customDifficulty.rows && customMines > 0)
     {
-        let row = [];
-        for(let c = 0; c< columns;c++)
-        {
-            //BUILD GRID <div id="0-0, 0-1, 0-2.... 7-7"></div>
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + c.toString();
-            //ADD CONTROLS
-            tile.addEventListener("click", clickTile);
-            tile.oncontextmenu = rightClickTile;
-            // APPEND TO BOARD AND PUSH TO ROW
-            document.getElementById("board").append(tile);
-            row.push(tile);
-        }
-        board.push(row);
-    } 
-}
-function setMines()
-{
-    let minesLeft = minesCount;
-
-    while(minesLeft > 0)
-    {
-        let r = Math.floor(Math.random()*rows);
-        let c = Math.floor(Math.random()*columns);
-        let id = r.toString() + "-" + c.toString();
-
-        if(!minesLocation.includes(id))
-        {
-            minesLocation.push(id);
-            minesLeft -=1;
-        }
+        customDifficulty.minesCount = document.getElementById("minesInput").value;
+        game = new Game(customDifficulty);
+        document.getElementById("game-settings").style.display = "none"; // Hide settings
     }
-}
-function rightClickTile()
-{
-    if(gameOver)
+    else if (customMines > customDifficulty.cols*customDifficulty.rows)
     {
-        return;
-    }
-    
-    let tile = this;
-
-    if(tile.innerText=="")
-    {
-        tile.innerText = "🚩";
-    }
-    else if (tile.innerText=="🚩")
-    {
-        tile.innerText = "";
-    }
-}
-function clickTile()
-{
-    if(gameOver || this.classList.contains("tile-clicked"))
-    {
-        return;
-    }
-
-    let tile = this;
-
-    if(minesLocation.includes(tile.id))
-    {
-        //alert("GAME OVER");
-        gameOver = true;
-        revealMines();
-        return;
-    }
-
-    let coords = tile.id.split("-"); //"0-0 -> ["0","0"]
-    let r = parseInt(coords[0]);
-    let c = parseInt(coords[1]);
-    checkMine(r,c);
-}
-function revealMines()
-{
-    for(let r = 0; r<rows;r++)
-    {
-        for(let c = 0; c< columns;c++)
-        {
-            let tile = board[r][c];
-            if(minesLocation.includes(tile.id))
-            {
-                tile.innerText="💣";
-                tile.style.backgroundColor = "red";
-            }
-        }
-    }
-}
-function checkMine(r,c) // Recursive function that checks tiles for mines
-{
-    if(r < 0 || r >= rows || c < 0 || c >= columns)
-    {
-        return;
-    }
-    if(board[r][c].classList.contains("tile-clicked"))
-    {
-        return;
-    }
-
-    board[r][c].classList.add("tile-clicked");
-    tilesClicked +=1;
-    let minesFound = 0;
-
-    //top 3
-    minesFound += checkTile(r-1,c-1); //top left
-    minesFound += checkTile(r-1,c); //top 
-    minesFound += checkTile(r-1,c+1); //top right
-    //left and right
-    minesFound += checkTile(r,c-1); //left
-    minesFound += checkTile(r,c+1); //right
-    //bottom 3
-    minesFound += checkTile(r+1,c-1); //bottom left
-    minesFound += checkTile(r+1,c); //bottom left
-    minesFound += checkTile(r+1,c+1); //bottom left
-
-    if(minesFound>0)
-    {
-        board[r][c].innerText = minesFound;
-        board[r][c].classList.add("x" + minesFound.toString());
+        document.getElementById("minesError").innerText = "Number of Mines Must Not Exceed Size of Game Board!";
     }
     else
     {
-        //top 3
-        checkMine(r-1,c-1); //top left
-        checkMine(r-1,c); //top 
-        checkMine(r-1,c+1); //top right
-        //left and right
-        checkMine(r,c-1); //left
-        checkMine(r,c+1); //right
-        //bottom 3
-        checkMine(r+1,c-1); //bottom left
-        checkMine(r+1,c); //bottom left
-        checkMine(r+1,c+1); //bottom left
+        document.getElementById("minesError").innerText = "You Must Have at Least 1 Mine!";
     }
 
-    if(tilesClicked == rows*columns-minesCount)
+}
+function restartGame()
+{
+    const boardElement = document.getElementById("board");
+    boardElement.innerHTML = ""; // Clear the current board
+    let customDifficulty = difficulties[currentDifficulty];
+    customDifficulty.minesCount = document.getElementById("minesInput").value;
+    game = new Game(customDifficulty);
+}
+function setDifficulty(button)
+{
+    currentDifficulty = parseInt(button.value);
+    document.getElementById("minesInput").value=difficulties[currentDifficulty].minesCount;
+
+        // Remove the "selected" class from all buttons
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+    
+        // Add the "selected" class to the clicked button
+        button.classList.add('selected');
+}
+
+class Difficulty
+{
+    constructor(name, rows, cols, minesCount) 
     {
-        document.getElementById("mines-count").innerText = "Cleared";
-        gameOver = true;
+        this.name = name;
+        this.rows = rows;
+        this.cols = cols;
+        this.minesCount = minesCount;
     }
 }
-function checkTile(r,c) // check tile for mine
+const difficulties = [
+    new Difficulty("Easy", 9, 9, 10),
+    new Difficulty("Medium", 16, 16, 40),
+    new Difficulty("Hard", 16, 30, 99)
+];
+class Game 
 {
-    if(r < 0 || r >= rows || c < 0 || c >= columns)
+    constructor(difficulty) 
     {
-        return 0;
+        this.rows = difficulty.rows;
+        this.cols = difficulty.cols;
+        this.tileSize = 40;
+        this.minesCount = difficulty.minesCount;
+        this.board = null;
+        this.minesLocation = [];
+        this.tilesClicked = 0;
+        this.flagEnabled = false;
+        this.gameOver = false;
+
+        this.init();
     }
-    if (minesLocation.includes(r.toString()+"-"+c.toString()))
+    init() 
     {
-        return 1;
+        document.getElementById("mines-count").innerText = this.minesCount;
+        document.getElementById("board").addEventListener("contextmenu", (e) => e.preventDefault());
+        this.board = new Board(this.rows, this.cols, this.tileSize, this);
+        this.setMines();
     }
-    return 0;
+    setMines() 
+    {
+        let minesLeft = this.minesCount;
+
+        while (minesLeft > 0) {
+            const r = Math.floor(Math.random() * this.rows);
+            const c = Math.floor(Math.random() * this.cols);
+            const id = `${r}-${c}`;
+
+            if (!this.minesLocation.includes(id)) {
+                this.minesLocation.push(id);
+                minesLeft--;
+            }
+        }
+    }
+    checkMine(r, c) 
+    {
+        if (this.isOutOfBounds(r, c) || this.board.tiles[r][c].element.classList.contains("tile-clicked")) return;
+
+        const tile = this.board.tiles[r][c];
+        tile.element.classList.add("tile-clicked");
+        this.tilesClicked++;
+
+        const minesFound = this.getSurroundingMines(r, c);
+
+        if (minesFound > 0) 
+        {
+            tile.element.innerText = minesFound;
+            tile.element.classList.add(`x${minesFound}`);
+        } else 
+        {
+            this.revealSurroundingTiles(r, c);
+        }
+
+        if (this.tilesClicked === this.rows * this.cols - this.minesCount) 
+        {
+            document.getElementById("mines-count").innerText = "Cleared";
+            this.gameOver = true;
+        }
+    }
+    getSurroundingMines(r, c) 
+    {
+        return this.checkTile(r - 1, c - 1) +
+               this.checkTile(r - 1, c) +
+               this.checkTile(r - 1, c + 1) +
+               this.checkTile(r, c - 1) +
+               this.checkTile(r, c + 1) +
+               this.checkTile(r + 1, c - 1) +
+               this.checkTile(r + 1, c) +
+               this.checkTile(r + 1, c + 1);
+    }
+    revealSurroundingTiles(r, c) 
+    {
+        this.checkMine(r - 1, c - 1);
+        this.checkMine(r - 1, c);
+        this.checkMine(r - 1, c + 1);
+        this.checkMine(r, c - 1);
+        this.checkMine(r, c + 1);
+        this.checkMine(r + 1, c - 1);
+        this.checkMine(r + 1, c);
+        this.checkMine(r + 1, c + 1);
+    }
+    checkTile(r, c) 
+    {
+        if (this.isOutOfBounds(r, c)) return 0;
+        if (this.minesLocation.includes(`${r}-${c}`)) 
+        {
+            return 1;
+        } else 
+        {
+            return 0;
+        }
+    }
+    isOutOfBounds(r, c) 
+    {
+        return r < 0 || r >= this.rows || c < 0 || c >= this.cols;
+    }
+    endGame() 
+    {
+        this.gameOver = true;
+        this.board.revealAllMines();
+    }
 }
