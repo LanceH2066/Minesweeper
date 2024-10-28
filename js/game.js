@@ -1,7 +1,3 @@
-// Start the game
-//document.addEventListener("DOMContentLoaded", () => {
-//    const game = new Game(difficulties[2]);
-//});
 let game;
 let currentDifficulty = 0;
 
@@ -74,8 +70,8 @@ class Game
         const screenHeight = window.innerHeight;
 
         this.tileSize = Math.min(
-            Math.floor(screenWidth / this.cols), 
-            Math.floor((0.8*screenHeight) / this.rows)
+            Math.floor((0.9*screenWidth) / this.cols), 
+            Math.floor((0.8*screenHeight) / this.rows) // 80% because we have a top bar taking space
         );        
         
         this.board = null;

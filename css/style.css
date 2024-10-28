@@ -219,7 +219,7 @@ li
 }
 #board 
 {
-    width: 400px;
+    width: 400px;   /* Default H/W, Actual values will be calculated based upon screen size*/
     height: 400px;
     border: 10px solid #c41230;
     background-color: lightgray;
@@ -231,7 +231,7 @@ li
 }
 #board div 
 {
-    width: 48px;
+    width: 48px;        /* Default H/W, Actual values will be calculated based upon screen size*/
     height: 48px;
     border: 1px solid whitesmoke;
     display: flex;
