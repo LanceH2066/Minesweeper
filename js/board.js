@@ -13,8 +13,13 @@ class Board
     buildBoard() 
     {
         const boardContainer = document.getElementById("board");
-        boardContainer.style.height = `${this.rows * this.tileSize}px`;
-        boardContainer.style.width = `${this.cols * this.tileSize}px`;
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        boardContainer.style.height = `${Math.floor(this.rows * this.tileSize)+19}px`;
+        boardContainer.style.width = `${Math.floor(this.cols * this.tileSize)+20}px`;
+
     }
     populateBoard() 
     {

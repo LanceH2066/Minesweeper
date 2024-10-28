@@ -68,8 +68,16 @@ class Game
     {
         this.rows = difficulty.rows;
         this.cols = difficulty.cols;
-        this.tileSize = 40;
         this.minesCount = difficulty.minesCount;
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        this.tileSize = Math.min(
+            Math.floor(screenWidth / this.cols), 
+            Math.floor((0.8*screenHeight) / this.rows)
+        );        
+        
         this.board = null;
         this.minesLocation = [];
         this.tilesClicked = 0;

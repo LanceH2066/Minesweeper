@@ -17,6 +17,10 @@ class Tile
             e.preventDefault();
             this.handleRightClick();
         };
+
+        tile.style.height = `${this.game.tileSize}px`;
+        tile.style.width = `${this.game.tileSize}px`;
+
         return tile;
     }
     handleClick() 
