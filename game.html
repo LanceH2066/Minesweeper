@@ -19,11 +19,11 @@
         </a>        
         <a href="index.html" class="inGameLinks">Main Menu</a>   <!-- Main Menu  -->
         <a href="game.html" class="inGameLinks">New Game</a>      <!-- Restart Game -->
-        <a class = "inGameLinks" onclick="restartGame()">Restart</a>
+        <a style="display: none" id="restartLink" class = "inGameLinks" onclick="restartGame()">Restart</a>
     </div>
 
     <div id = "game-settings">
-        <div id ="difficulty-settings">
+        <div class = "settings-container">
             <h1>Difficulty:</h1>
             <button class="difficulty-btn" onclick="setDifficulty(this)" value="0">Easy</button>
             <button class="difficulty-btn" onclick="setDifficulty(this)" value="1">Medium</button>
@@ -32,15 +32,21 @@
 
         <h3 id ="minesError"></h3>
         
-        <div id="mine-settings">
+        <div class = "settings-container">
             <label for="minesInput"><h1>Mines:</h1></label>
             <input type="number" id = "minesInput" name="minesInput" value="10">
+        </div>
+
+        <div class = "settings-container">
+            <label for="autoStart"><h1>Auto First Move:</h1></label>
+            <input type="checkbox" id = "autoStart" name="autoStart">
         </div>
 
         <button id= "startGameBtn" onclick="startGame()">Start Game</button>
     </div>
 
-    <h1>Mines: <span id="mines-count">0</span></h1>
+    <h1>Mines: <span id="mines-count">0</span>  <span id="time-display">00:00</span></h1>
+
     <div id="board"></div>
     <br>
 

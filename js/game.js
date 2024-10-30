@@ -1,19 +1,27 @@
 let game;
 let currentDifficulty = 0;
+let autoStart = false;
 
 function startGame()
 {
     let customMines = document.getElementById("minesInput").value;
     let customDifficulty = difficulties[currentDifficulty];
+    autoStart = document.getElementById("autoStart").checked;
     if(customMines < customDifficulty.cols*customDifficulty.rows && customMines > 0)
     {
         customDifficulty.minesCount = document.getElementById("minesInput").value;
         game = new Game(customDifficulty);
         document.getElementById("game-settings").style.display = "none"; // Hide settings
+        document.getElementById("restartLink").style.display = "flex"; // Show restart
+        if (autoStart) 
+        {
+            // Reveal the first tile randomly on start
+            game.revealFirstTile();
+        }
     }
-    else if (customMines > customDifficulty.cols*customDifficulty.rows)
+    else if (customMines >= customDifficulty.cols*customDifficulty.rows)
     {
-        document.getElementById("minesError").innerText = "Number of Mines Must Not Exceed Size of Game Board!";
+        document.getElementById("minesError").innerText = "Must Have Less Mines Than Tiles!";
     }
     else
     {
@@ -28,6 +36,10 @@ function restartGame()
     let customDifficulty = difficulties[currentDifficulty];
     customDifficulty.minesCount = document.getElementById("minesInput").value;
     game = new Game(customDifficulty);
+    if (autoStart) 
+    {
+        game.revealFirstTile();
+    }
 }
 function setDifficulty(button)
 {
@@ -42,7 +54,6 @@ function setDifficulty(button)
         // Add the "selected" class to the clicked button
         button.classList.add('selected');
 }
-
 class Difficulty
 {
     constructor(name, rows, cols, minesCount) 
@@ -79,6 +90,9 @@ class Game
         this.tilesClicked = 0;
         this.flagEnabled = false;
         this.gameOver = false;
+        this.firstMoveMade = false;
+        this.timerInterval = null;
+        this.startTime = 0; // Store start time in milliseconds
 
         this.init();
     }
@@ -86,8 +100,19 @@ class Game
     {
         document.getElementById("mines-count").innerText = this.minesCount;
         document.getElementById("board").addEventListener("contextmenu", (e) => e.preventDefault());
+        document.getElementById("time-display").innerText = "Time: 00:00"; // Reset the timer
         this.board = new Board(this.rows, this.cols, this.tileSize, this);
         this.setMines();
+    }
+    revealFirstTile() 
+    {
+        let r, c;
+        do {
+            r = Math.floor(Math.random() * this.rows);
+            c = Math.floor(Math.random() * this.cols);
+        } while (this.minesLocation.includes(`${r}-${c}`)); // Ensure first tile is not a mine
+
+        this.checkMine(r, c); // Reveal the selected tile
     }
     setMines() 
     {
@@ -108,6 +133,14 @@ class Game
     {
         if (this.isOutOfBounds(r, c) || this.board.tiles[r][c].element.classList.contains("tile-clicked")) return;
 
+
+        if (!this.firstMoveMade) 
+        {
+            this.startTimer(); // Start the timer on first move
+            this.firstMoveMade = true;
+        }
+
+
         const tile = this.board.tiles[r][c];
         tile.element.classList.add("tile-clicked");
         this.tilesClicked++;
@@ -125,8 +158,7 @@ class Game
 
         if (this.tilesClicked === this.rows * this.cols - this.minesCount) 
         {
-            document.getElementById("mines-count").innerText = "Cleared";
-            this.gameOver = true;
+            this.endGame("Cleared!");
         }
     }
     getSurroundingMines(r, c) 
@@ -166,9 +198,28 @@ class Game
     {
         return r < 0 || r >= this.rows || c < 0 || c >= this.cols;
     }
-    endGame() 
+    startTimer() 
+    {
+        this.startTime = Date.now(); // Record the starting time
+
+        this.timerInterval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+
+            // Format minutes and seconds as MM:SS (e.g., 02:05)
+            const formattedTime = 
+                String(minutes).padStart(2, "0") + ":" + 
+                String(seconds).padStart(2, "0");
+
+            document.getElementById("time-display").innerText = "Time: " + formattedTime;
+        }, 1000);
+    }
+    endGame(status) 
     {
         this.gameOver = true;
+        clearInterval(this.timerInterval); // Stop the timer
+        document.getElementById("mines-count").innerText = status;
         this.board.revealAllMines();
     }
 }
