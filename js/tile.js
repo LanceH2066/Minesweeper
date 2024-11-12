@@ -28,6 +28,7 @@ class Tile
         if (this.game.gameOver || this.element.classList.contains("tile-clicked")) return;
         if (this.game.minesLocation.includes(this.id)) 
         {
+            this.game.explosionSound.play();
             this.game.endGame("You Lost!");
         } else
         {
@@ -36,7 +37,7 @@ class Tile
     }
     handleRightClick() 
     {
-        if (this.game.gameOver) return;
+        if (this.game.gameOver || this.element.classList.contains("tile-clicked")) return;
         this.element.innerText = this.element.innerText === "🚩" ? "" : "🚩";
     }
     reveal(isMine = false) 

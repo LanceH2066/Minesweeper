@@ -13,6 +13,7 @@ function startGame()
         game = new Game(customDifficulty);
         document.getElementById("game-settings").style.display = "none"; // Hide settings
         document.getElementById("restartLink").style.display = "flex"; // Show restart
+        music.play();
         if (autoStart) 
         {
             // Reveal the first tile randomly on start
@@ -31,6 +32,15 @@ function startGame()
 }
 function restartGame()
 {
+    game.music.currentTime = 0;
+
+    if (game && game.timerInterval) 
+    {
+        clearInterval(game.timerInterval); // Stop the existing timer
+    }
+
+    document.getElementById("time-display").innerText = "Time: 00:00"; // Reset the displayed time
+
     const boardElement = document.getElementById("board");
     boardElement.innerHTML = ""; // Clear the current board
     let customDifficulty = difficulties[currentDifficulty];
@@ -94,6 +104,8 @@ class Game
         this.timerInterval = null;
         this.startTime = 0; // Store start time in milliseconds
 
+        this.music = document.getElementById("backgroundMusic");
+        this.explosionSound = document.getElementById("explosionSound");
         this.init();
     }
     init() 
@@ -136,6 +148,7 @@ class Game
 
         if (!this.firstMoveMade) 
         {
+            this.music.play();
             this.startTimer(); // Start the timer on first move
             this.firstMoveMade = true;
         }
@@ -202,7 +215,8 @@ class Game
     {
         this.startTime = Date.now(); // Record the starting time
 
-        this.timerInterval = setInterval(() => {
+        this.timerInterval = setInterval(() => 
+        {
             const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
             const minutes = Math.floor(elapsed / 60);
             const seconds = elapsed % 60;
@@ -218,6 +232,7 @@ class Game
     endGame(status) 
     {
         this.gameOver = true;
+        this.music.pause();
         clearInterval(this.timerInterval); // Stop the timer
         document.getElementById("mines-count").innerText = status;
         this.board.revealAllMines();
