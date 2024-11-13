@@ -28,8 +28,7 @@ class Tile
         if (this.game.gameOver || this.element.classList.contains("tile-clicked")) return;
         if (this.game.minesLocation.includes(this.id)) 
         {
-            this.game.explosionSound.play();
-            this.game.endGame("You Lost!");
+            this.game.loseGame();
         } else
         {
             this.game.checkMine(this.row, this.col);

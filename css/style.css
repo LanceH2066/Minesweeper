@@ -7,6 +7,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 html, body 
 {
@@ -234,8 +237,13 @@ li
 #board div:not(.tile-clicked):hover
 {
     background-color: rgb(226, 226, 226);
+    cursor:pointer;
 }
 .tile-clicked { background-color: darkgrey; }
+.tile-clicked:hover
+{
+    cursor: default;  
+}
 .x1 { color: #002c76; }
 .x2 { color: green; }
 .x3 { color: #c41230; }
@@ -331,4 +339,8 @@ input:focus
     border: 1px solid white;
     margin: 0 auto;
 }
-
+checkbox
+{
+    height: 5%;
+    width: 5%;
+}

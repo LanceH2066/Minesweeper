@@ -9,11 +9,10 @@ function startGame()
     autoStart = document.getElementById("autoStart").checked;
     if(customMines < customDifficulty.cols*customDifficulty.rows && customMines > 0)
     {
-        customDifficulty.minesCount = document.getElementById("minesInput").value;
+        customDifficulty.minesCount = Math.round(document.getElementById("minesInput").value);
         game = new Game(customDifficulty);
         document.getElementById("game-settings").style.display = "none"; // Hide settings
         document.getElementById("restartLink").style.display = "flex"; // Show restart
-        music.play();
         if (autoStart) 
         {
             // Reveal the first tile randomly on start
@@ -104,8 +103,10 @@ class Game
         this.timerInterval = null;
         this.startTime = 0; // Store start time in milliseconds
 
+
         this.music = document.getElementById("backgroundMusic");
         this.explosionSound = document.getElementById("explosionSound");
+        this.winSound = document.getElementById("winSound");
         this.init();
     }
     init() 
@@ -171,7 +172,7 @@ class Game
 
         if (this.tilesClicked === this.rows * this.cols - this.minesCount) 
         {
-            this.endGame("Cleared!");
+            this.winGame();
         }
     }
     getSurroundingMines(r, c) 
@@ -236,5 +237,15 @@ class Game
         clearInterval(this.timerInterval); // Stop the timer
         document.getElementById("mines-count").innerText = status;
         this.board.revealAllMines();
+    }
+    winGame()
+    {
+        this.winSound.play();
+        this.endGame("Cleared!");
+    }
+    loseGame()
+    {
+        this.explosionSound.play();
+        this.endGame("You Lost!");
     }
 }
