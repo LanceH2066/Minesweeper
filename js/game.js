@@ -1,58 +1,62 @@
-let game;
-let currentDifficulty = 0;
-let autoStart = false;
+/*--------- GLOBAL VARIABLES ----------*/
+let game;                   // Reference to our game, used in helpers
+let currentDifficulty = 0;  // Current difficulty set by user, used in helpers
+let autoStart = false;      // First move setting, used in helpers
 
-function startGame()
+/*--------- HELPER / INPUT HANDLER FUNCTIONS  ----------*/
+function startGame()        // Function to start the game
 {
-    let customMines = document.getElementById("minesInput").value;
-    let customDifficulty = difficulties[currentDifficulty];
-    autoStart = document.getElementById("autoStart").checked;
-    if(customMines < customDifficulty.cols*customDifficulty.rows && customMines > 0)
+    let customMines = document.getElementById("minesInput").value;  // Get # of mines from input
+    let customDifficulty = difficulties[currentDifficulty];         // Get difficulty from input
+    autoStart = document.getElementById("autoStart").checked;       // Get first move setting from input
+    if(customMines < customDifficulty.cols*customDifficulty.rows && customMines > 0) // Must be less mines than tiles and at least 1 mine
     {
-        customDifficulty.minesCount = Math.round(document.getElementById("minesInput").value);
-        game = new Game(customDifficulty);
+        customDifficulty.minesCount = Math.round(document.getElementById("minesInput").value); // Change the # of mines in the difficulty
+        game = new Game(customDifficulty);  // Start the new game
         document.getElementById("game-settings").style.display = "none"; // Hide settings
         document.getElementById("restartLink").style.display = "flex"; // Show restart
-        if (autoStart) 
+        if (autoStart) // If first move setting checked
         {
             // Reveal the first tile randomly on start
             game.revealFirstTile();
         }
     }
-    else if (customMines >= customDifficulty.cols*customDifficulty.rows)
+    else if (customMines >= customDifficulty.cols*customDifficulty.rows) // More mines than tiles
     {
         document.getElementById("minesError").innerText = "Must Have Less Mines Than Tiles!";
     }
-    else
+    else   // 0 or less mines
     {
         document.getElementById("minesError").innerText = "You Must Have at Least 1 Mine!";
     }
 
 }
-function restartGame()
+function restartGame()      // Function to restart the game
 {
-    game.music.currentTime = 0;
+    game.music.currentTime = 0;  // restart music
 
-    if (game && game.timerInterval) 
+    if (game && game.timerInterval) // if we have an existing timer
     {
         clearInterval(game.timerInterval); // Stop the existing timer
     }
 
     document.getElementById("time-display").innerText = "Time: 00:00"; // Reset the displayed time
 
-    const boardElement = document.getElementById("board");
+    const boardElement = document.getElementById("board"); // get board
     boardElement.innerHTML = ""; // Clear the current board
-    let customDifficulty = difficulties[currentDifficulty];
-    customDifficulty.minesCount = document.getElementById("minesInput").value;
-    game = new Game(customDifficulty);
-    if (autoStart) 
+    let customDifficulty = difficulties[currentDifficulty]; // get difficulty
+    customDifficulty.minesCount = document.getElementById("minesInput").value; // make sure to use the custom number of mines
+    game = new Game(customDifficulty); // Start New Game
+    if (autoStart) // if first move box is checked
     {
-        game.revealFirstTile();
+        game.revealFirstTile(); // reveal first tile
     }
 }
-function setDifficulty(button)
+function setDifficulty(button)      // Function attached to difficulty buttons, takes in the button that is clicked as parameter
 {
-    currentDifficulty = parseInt(button.value);
+    // get difficulty from  buttons that hold a value 0,1,2 which are the index of the difficulties
+    currentDifficulty = parseInt(button.value); 
+    // change # of mines in the input to the default for that difficulty
     document.getElementById("minesInput").value=difficulties[currentDifficulty].minesCount;
 
         // Remove the "selected" class from all buttons
@@ -63,101 +67,115 @@ function setDifficulty(button)
         // Add the "selected" class to the clicked button
         button.classList.add('selected');
 }
-class Difficulty
+
+/*--------- DIFFICULTY SETTINGS  ----------*/
+class Difficulty                            // Simple difficulty class for creating hard coded difficulties
 {
     constructor(name, rows, cols, minesCount) 
-    {
-        this.name = name;
-        this.rows = rows;
-        this.cols = cols;
-        this.minesCount = minesCount;
+    {                                       
+        this.name = name;                   // Name of difficulty: Easy,Medium,Hard,etc...
+        this.rows = rows;                   // # of rows for that difficulty
+        this.cols = cols;                   // # of cols for that difficulty
+        this.minesCount = minesCount;       // # of mines for that difficulty
     }
 }
-const difficulties = [
-    new Difficulty("Easy", 9, 9, 10),
-    new Difficulty("Medium", 16, 16, 40),
-    new Difficulty("Hard", 16, 30, 99)
+const difficulties =                        // Array of default difficulty settings
+[
+    new Difficulty("Easy", 9, 9, 10),       // Defaults for Easy Mode
+    new Difficulty("Medium", 16, 16, 40),   // Defaults for Medium Mode
+    new Difficulty("Hard", 16, 30, 99)      // Defaults for Hard Mode
 ];
+
+/*--------- GAME CLASS ----------*/
 class Game 
 {
     constructor(difficulty) 
     {
-        this.rows = difficulty.rows;
-        this.cols = difficulty.cols;
-        this.minesCount = difficulty.minesCount;
-
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-
-        this.tileSize = Math.min(
-            Math.floor((0.9*screenWidth) / this.cols), 
-            Math.floor((0.8*screenHeight) / this.rows) // 80% because we have a top bar taking space
+        /* ---------------- BOARD --------------- */
+        this.rows = difficulty.rows;                    // Get rows from difficulty
+        this.cols = difficulty.cols;                    // Get cols from difficulty
+        this.minesCount = difficulty.minesCount;        // Get number of mines from difficulty(can be custom / user input)
+        
+        /* ---------------- TILES --------------- */
+        const screenWidth = window.innerWidth;          // Get window width
+        const screenHeight = window.innerHeight;        // Get window height
+        this.tileSize = Math.min                        // Getting tile size based on Screen size and number of rows/cols
+        (
+            Math.floor((0.9*screenWidth) / this.cols),  // 90% to leave some space on the sides
+            Math.floor((0.8*screenHeight) / this.rows)  // 80% because we have a top bar taking space
         );        
         
-        this.board = null;
-        this.minesLocation = [];
-        this.tilesClicked = 0;
-        this.flagEnabled = false;
-        this.gameOver = false;
-        this.firstMoveMade = false;
-        this.timerInterval = null;
-        this.startTime = 0; // Store start time in milliseconds
+        /* ---------------- GAME --------------- */        
+        this.board = null;          // Reference to board
+        this.minesLocation = [];    // Locations of all mines
+        this.tilesClicked = 0;      // # Of uncovered tiles
+        this.gameOver = false;      // Keep track of if game is over
+        this.firstMoveMade = false; // Check if game has started for: Music & Timer reasons
 
+        /* ---------------- TIMER --------------- */
+        this.timerInterval = null;  // Initialize timer interval variable for use in timer functions
+        this.startTime = 0;         // Initialize startTime to 0, timer always starts at 0
 
-        this.music = document.getElementById("backgroundMusic");
-        this.explosionSound = document.getElementById("explosionSound");
-        this.winSound = document.getElementById("winSound");
-        this.init();
+        /* ---------------- AUDIO --------------- */
+        this.music = document.getElementById("backgroundMusic");            // Get and store music embedded in DOM
+        this.explosionSound = document.getElementById("explosionSound");    // Get and store explosionSound embedded in DOM
+        this.winSound = document.getElementById("winSound");                // Get and store winSound embedded in DOM
+
+        /* ---------------- INIT --------------- */
+        this.init();    // Initialize DOM Elements, Disable Contextmenu, Create Board
+                        // Disable contexmenu (right click options) so we can use right click for flags.
     }
-    init() 
+    init()  // Initialize Board and Display
     {
-        document.getElementById("mines-count").innerText = this.minesCount;
-        document.getElementById("board").addEventListener("contextmenu", (e) => e.preventDefault());
-        document.getElementById("time-display").innerText = "Time: 00:00"; // Reset the timer
-        this.board = new Board(this.rows, this.cols, this.tileSize, this);
-        this.setMines();
+        document.getElementById("mines-count").innerText = this.minesCount;     // Set DOM Element showing # of mines on screen
+        document.getElementById("board").addEventListener("contextmenu", (e) => e.preventDefault()); // Disable contexmenu (right click options) so we can use right click for flags.
+        document.getElementById("time-display").innerText = "Time: 00:00"; // Reset DOM Element timer to 0 on screen
+        this.board = new Board(this.rows, this.cols, this.tileSize, this);      // Create board 
+        this.setMines();    // Randomize position of and set mines
     }
-    revealFirstTile() 
+    revealFirstTile() // Function for choosing a non mine tile for the players first move
     {
-        let r, c;
-        do {
+        let r, c;   // rows, cols
+        do // check for a random safe tile until we hit one
+        {
             r = Math.floor(Math.random() * this.rows);
             c = Math.floor(Math.random() * this.cols);
-        } while (this.minesLocation.includes(`${r}-${c}`)); // Ensure first tile is not a mine
+        } while (this.minesLocation.includes(`${r}-${c}`)); // Ensure tile is not a mine
 
         this.checkMine(r, c); // Reveal the selected tile
     }
-    setMines() 
+    setMines() // Randomize mine positions and save them
     {
-        let minesLeft = this.minesCount;
+        let minesLeft = this.minesCount;    // Counter starts at the initial # of mines
 
-        while (minesLeft > 0) {
-            const r = Math.floor(Math.random() * this.rows);
-            const c = Math.floor(Math.random() * this.cols);
-            const id = `${r}-${c}`;
+        while (minesLeft > 0) // iterate through each mine
+        {
+            const r = Math.floor(Math.random() * this.rows); // randomize row
+            const c = Math.floor(Math.random() * this.cols); // randomize col
+            const id = `${r}-${c}`;                          // format id
 
-            if (!this.minesLocation.includes(id)) {
-                this.minesLocation.push(id);
-                minesLeft--;
+            if (!this.minesLocation.includes(id)) // if tile does not already have a mine
+            {
+                this.minesLocation.push(id);    // store position of mine
+                minesLeft--;                    // decrement counter
             }
         }
     }
-    checkMine(r, c) 
+    checkMine(r, c) // Main Function: Called on left click, checks & reveals tiles
     {
+        // check if out of bounds
         if (this.isOutOfBounds(r, c) || this.board.tiles[r][c].element.classList.contains("tile-clicked")) return;
-
-
+        // If its the first move, start the music and the timer
         if (!this.firstMoveMade) 
         {
             this.music.play();
-            this.startTimer(); // Start the timer on first move
+            this.startTimer();
             this.firstMoveMade = true;
         }
-
-
+        // Get reference to current tile and change it to a clicked tile(css)
         const tile = this.board.tiles[r][c];
         tile.element.classList.add("tile-clicked");
-        this.tilesClicked++;
+        this.tilesClicked++;    // increment # of revealed tiles (win condition)
 
         const minesFound = this.getSurroundingMines(r, c);
 
@@ -175,7 +193,7 @@ class Game
             this.winGame();
         }
     }
-    getSurroundingMines(r, c) 
+    getSurroundingMines(r, c) // recursive function to 
     {
         return this.checkTile(r - 1, c - 1) +
                this.checkTile(r - 1, c) +
