@@ -18,7 +18,7 @@
             <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
         </a>        
         <a href="index.html" class="inGameLinks">Main Menu</a>   <!-- Main Menu  -->
-        <a href="game.html" class="inGameLinks">New Game</a>      <!-- Restart Game -->
+        <a href="game.html"  class="inGameLinks">New Game</a>      <!-- Restart Game -->
         <a style="display: none" id="restartLink" class = "inGameLinks" onclick="restartGame()">Restart</a>
     </div>
 
@@ -34,11 +34,16 @@
             <button class="difficulty-btn" onclick="setDifficulty(this)" value="2">Hard</button>
         </div>
 
-        <h3 id ="minesError"></h3>
-        
         <div class = "settings-container">
-            <label for="minesInput"><h1>Mines:</h1></label>
-            <input type="number" id = "minesInput" name="minesInput" value="10">
+            <h1>Win Condition:</h1>
+            <button class="wincon-btn" onclick="setWinCondition(this)" value="0">Clear Whole Grid</button>
+            <button class="wincon-btn" onclick="setWinCondition(this)" value="1">Flag All Mines</button>
+        </div>
+
+        <div class = "settings-container">
+            <h1>Theme:</h1>
+            <button class="theme-btn" onclick="setTheme(this)" value="0">Fresno State</button>
+            <button class="theme-btn" onclick="setTheme(this)" value="1">Legacy</button>
         </div>
 
         <div class = "settings-container">
@@ -46,10 +51,17 @@
             <input type="checkbox" id = "autoStart" name="autoStart">
         </div>
 
+        <h3 id ="minesError"></h3>
+
+        <div class = "settings-container">
+            <label for="minesInput"><h1>Mines:</h1></label>
+            <input type="number" id = "minesInput" name="minesInput" value="10">
+        </div>
+
         <button id= "startGameBtn" onclick="startGame()">Start Game</button>
     </div>
 
-    <h1>Mines: <span id="mines-count">0</span>  <span id="time-display">00:00</span></h1>
+    <h1 id="minesNtime">Mines: <span id="mines-count">0</span>  <span id="time-display">00:00</span></h1>
 
     <div id="board"></div>
     <br>
