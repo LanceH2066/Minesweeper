@@ -1,0 +1,17 @@
+CREATE TABLE users(
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    pwd VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
+)
+
+CREATE TABLE leaderboard(
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    games_won INT(11) NOT NULL,
+    games_played INT(11) NOT NULL,
+    time_played TIME NOT NULL,
+    user_id INT (11),
+    PRIMARY KEY (id),
+    FOREIGN KEY(user_id) REFERENCES users (id) ON DELETE SET NULL
+);

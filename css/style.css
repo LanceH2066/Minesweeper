@@ -376,15 +376,31 @@ input:focus
 /* =========================
    Leaderboard Styles
 ========================= */
-#leaderboardContainer
+#leaderboardContainer 
 {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
     width: 75%;
-    height: 80%;
-    border: 1px solid white;
+    height: 75%;
+    text-align: center;
+}
+
+/* Leaderboard Table */
+table 
+{
+    width: 100%;
+    border-collapse: collapse;
     margin: 0 auto;
 }
-checkbox
+table, th, td 
 {
+    border: 1px solid white;
+    text-align: center;
+    padding: 8px;
     height: 5%;
-    width: 5%;
+}
+td 
+{
+    color: white;
 }

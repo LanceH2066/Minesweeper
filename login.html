@@ -19,13 +19,13 @@
     
     <h1>Enter Your Information</h1>
 
-    <form class = "userAuth">
+    <form action="includes/formhandler.inc.php" method="POST" class = "userAuth" >
 
         <label for ="username">Username:</label>
         <input type="text" id="username" name="username">
 
-        <label for ="password">Password:</label>
-        <input type="text" id="password" name="password">
+        <label for ="pwd">Password:</label>
+        <input type="text" id="pwd" name="pwd">
 
         <button id="userAuthBtn">Login</button>
     </form>
