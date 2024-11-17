@@ -123,6 +123,7 @@ li
     justify-content: center;      /* Center text horizontally */
     align-items: center;          /* Center text vertically */
     font-size: clamp(1rem, 1vw, 4rem); /* Scales font size */
+    font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
     padding: 5%;
     height: 6vh;
     width: 100%;
