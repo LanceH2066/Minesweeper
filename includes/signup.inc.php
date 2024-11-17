@@ -11,6 +11,26 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
         require_once "signup_model.inc.php";
         require_once "signup_contr.inc.php";
 
+        $errors = [];
+
+        // ERROR HANDLERS
+        if(is_input_empty($username, $password))
+        {
+            $errors["empty_input"] = "Fill in all fields!";
+        }
+        if(is_username_taken($pdo, $username))
+        {
+            $errors["username_taken"] = "Username already taken!";
+        }
+        
+        require_once "config_session.inc.php";
+
+        if($errors)
+        {
+            $_SESSION["errors_signup"] = $errors;
+            header("Location: ../signup.php");
+        }
+
         $query = "INSERT INTO users (username, pwd) VALUES (:username, :pwd);";
 
         $stmt = $pdo->prepare($query);
@@ -23,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
         $pdo = null;
         $stmt = null;
 
-        header("Location: ../index.html");
+        header("Location: ../index.php");
 
         die();
     } 
@@ -34,6 +54,6 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
 }
 else
 {
-    header("Location: ../index.html");
+    header("Location: ../index.php");
     die();
 }

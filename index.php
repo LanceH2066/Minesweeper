@@ -11,7 +11,7 @@
 
 <body>
     <div id = "topBar">
-        <a href="index.html">
+        <a href="index.php">
             <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
         </a>        
         <h1>Minesweeper</h1>
@@ -23,7 +23,7 @@
             <a href="game.html" class="button">Play Game</a>                <!-- Link to game.html -->
             <a href="help.html" class="button">How to Play</a>              <!-- Link to help.html -->
             <a href="login.html" class="button">Login</a>                   <!-- Link to login.html -->
-            <a href="signup.html" class="button">Sign Up</a>                <!-- Link to signup.html -->
+            <a href="signup.php" class="button">Sign Up</a>                <!-- Link to signup.php -->
 
             <form action="leaderboard.php" method="post">
                 <button class="button">Leaderboard</button>       
