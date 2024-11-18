@@ -11,7 +11,7 @@
 
 <body>
     <div id = "topBar">
-        <a href="index.html">
+        <a href="index.php">
             <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
         </a>        
         <h1>Minesweeper</h1>

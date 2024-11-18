@@ -31,19 +31,12 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
             header("Location: ../signup.php");
         }
 
-        $query = "INSERT INTO users (username, pwd) VALUES (:username, :pwd);";
+        create_user($pdo, $username, $pwd);
 
-        $stmt = $pdo->prepare($query);
-
-        $stmt->bindParam(":username", $username);
-        $stmt->bindParam(":pwd", $pwd);
-
-        $stmt->execute();
+        header("Location: ../index.php");
 
         $pdo = null;
-        $stmt = null;
-
-        header("Location: ../index.html");
+        $stsm = null;
 
         die();
     } 
@@ -54,6 +47,6 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
 }
 else
 {
-    header("Location: ../index.html");
+    header("Location: ../index.php");
     die();
 }

@@ -16,10 +16,10 @@
 
 <body>
     <div id = "topBar">
-        <a href="index.html">
+        <a href="index.php">
             <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
         </a>        
-        <a href="index.html" class="inGameLinks">Main Menu</a>
+        <a href="index.php" class="inGameLinks">Main Menu</a>
     </div>
     
     <h1>Enter Your Information</h1>
@@ -38,7 +38,6 @@
     <?php
         check_signup_errors();
     ?>
-
 
     <img id ="bulldog" src = "./img/Bulldog.png">
     <img id ="bomb" src = "./img/Bomb.png">

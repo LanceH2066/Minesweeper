@@ -12,7 +12,7 @@ function check_signup_errors()
 
         foreach($errors as $error)
         {
-            echo '<p>' . $error . '</p>';
+            echo '<p>' . htmlspecialchars($error) . '</p>';
         }
 
         unset($_SESSION['errors_signup']);

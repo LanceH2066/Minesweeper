@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-function is_input_empty(string $username, string $password)
+function is_input_empty(string $username, string $pwd)
 {
     if(empty($username) || empty($pwd))
     {
@@ -24,4 +24,9 @@ function is_username_taken(object $pdo, string $username)
     {
         return false;
     }
+}
+
+function create_user(object $pdo, string $username, string $pwd)
+{
+    set_user($pdo, $username, $pwd);
 }
