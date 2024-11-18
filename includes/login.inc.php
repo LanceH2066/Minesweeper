@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 session_start();
                 $_SESSION["username"] = $username;
         
-                header("Location: ../index.php");
+                header("Location: ../index.html");
         
                 exit();
             } 
@@ -50,5 +50,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     }
 } else 
 {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
 }

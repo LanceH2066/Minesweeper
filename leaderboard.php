@@ -26,7 +26,7 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
 }
 else
 {
-    header("Location: ../index.php");
+    header("Location: ../index.html");
 }
 ?>
 
@@ -43,10 +43,10 @@ else
 
 <body>
     <div id = "topBar">
-        <a href="index.php">
+        <a href="index.html">
             <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
         </a>        
-        <a href="index.php" class="inGameLinks">Main Menu</a>
+        <a href="index.html" class="inGameLinks">Main Menu</a>
     </div>
 
     <h1>Leaderboard</h1>
