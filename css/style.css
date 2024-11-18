@@ -76,6 +76,12 @@ li
     height: 7vh; /* Adjust based on page */
     background-color: #c41230;
 }
+#accountCreated
+{
+    position: absolute;
+    display: flex;
+    margin-left: 70%;
+}
 /* Logo */
 #logo 
 {
@@ -355,6 +361,11 @@ input:focus
 {
     border: 2px solid #ffffff;
     outline: none;
+}
+input::placeholder
+{
+    color: white;
+    opacity: 40%;
 }
 #userAuthBtn  
 {

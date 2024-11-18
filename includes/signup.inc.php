@@ -28,12 +28,19 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
         if($errors)
         {
             $_SESSION["errors_signup"] = $errors;
+
+            $signupData = [
+                "username" => $username,
+            ];
+            $_SESSION["signup_data"] = $signupData;
+
             header("Location: ../signup.php");
+            die();
         }
 
         create_user($pdo, $username, $pwd);
 
-        header("Location: ../index.php");
+        header("Location: ../index.php?signup=success");
 
         $pdo = null;
         $stsm = null;

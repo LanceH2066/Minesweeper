@@ -25,13 +25,9 @@
     <h1>Enter Your Information</h1>
 
     <form action="includes/signup.inc.php" method="POST" class = "userAuth" >
-
-        <label for ="username">Username:</label>
-        <input type="text" id="username" name="username">
-
-        <label for ="pwd">Password:</label>
-        <input type="text" id="pwd" name="pwd">
-
+        <?php
+            signup_inputs();
+        ?>
         <button id="userAuthBtn">Signup</button>
     </form>
 

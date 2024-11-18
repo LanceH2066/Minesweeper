@@ -1,3 +1,8 @@
+<?php
+    require_once 'includes/config_session.inc.php';
+    require_once 'includes/signup_view.inc.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +20,12 @@
             <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
         </a>        
         <h1>Minesweeper</h1>
+
+        <div id = "accountCreated">
+            <?php
+                check_account_created();
+            ?>
+        </div>
     </div>
      
     <div class="container">
