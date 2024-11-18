@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
         $errors = [];
 
         // ERROR HANDLERS
-        if(is_input_empty($username, $password))
+        if(is_input_empty($username, $pwd))
         {
             $errors["empty_input"] = "Fill in all fields!";
         }
