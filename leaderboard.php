@@ -1,16 +1,14 @@
 <?php
-
 if($_SERVER["REQUEST_METHOD"] =="POST")
 {
     try 
     {
         require_once "includes/dbh.inc.php";
+        require_once "includes/config_session.inc.php";
 
         $query = "SELECT * FROM leaderboard";
 
         $stmt = $pdo->prepare($query);
-
-        //$stmt->bindParam(":username", $username);
 
         $stmt->execute();
 

@@ -40,7 +40,20 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
 
         create_user($pdo, $username, $pwd);
 
-        header("Location: ../index.php?signup=success");
+        require_once "login_model.inc.php";
+
+        $result = get_user($pdo, $username);
+
+        $newSessionId = session_create_id();
+        $sessionId = $newSessionId . "_" . $result["id"];
+        session_id($sessionId);
+
+        $_SESSION["user_id"] = $result["id"];
+        $_SESSION["user_username"] = htmlspecialchars($result["username"]);
+
+        $_SESSION["last_regeneration"]=time();
+
+        header("Location: ../index.php");
 
         $pdo = null;
         $stsm = null;

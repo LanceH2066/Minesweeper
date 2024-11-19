@@ -80,7 +80,21 @@ li
 {
     position: absolute;
     display: flex;
-    margin-left: 70%;
+    margin-left: 65%;
+    justify-content: center;
+    align-items: center;
+}
+#logoutBtn
+{
+    font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
+    height: auto;
+    width: auto;
+    border-radius: 20px;
+    text-decoration: none;        /* Remove the underline */
+    color: white;
+    background-color: #c41230;
+    cursor: pointer;
+    border: none;
 }
 /* Logo */
 #logo 
@@ -415,4 +429,11 @@ table, th, td
 td 
 {
     color: white;
+}
+.sortingForm
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 auto;
 }

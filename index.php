@@ -1,6 +1,7 @@
 <?php
     require_once 'includes/config_session.inc.php';
     require_once 'includes/signup_view.inc.php';
+    require_once 'includes/login_view.inc.php';
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +24,7 @@
 
         <div id = "accountCreated">
             <?php
-                check_account_created();
+                check_logged_in();
             ?>
         </div>
     </div>
@@ -33,7 +34,7 @@
         <div id="navMenu">
             <a href="game.html" class="button">Play Game</a>                <!-- Link to game.html -->
             <a href="help.html" class="button">How to Play</a>              <!-- Link to help.html -->
-            <a href="login.html" class="button">Login</a>                   <!-- Link to login.html -->
+            <a href="login.php" class="button">Login</a>                   <!-- Link to login.php -->
             <a href="signup.php" class="button">Sign Up</a>                <!-- Link to signup.php -->
 
             <form action="leaderboard.php" method="post">

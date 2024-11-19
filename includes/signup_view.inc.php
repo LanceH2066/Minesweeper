@@ -10,7 +10,7 @@ function signup_inputs()
     }
     else
     {
-        echo '<input type="text" id="username" name="username">';
+        echo '<input type="text" id="username" name="username" placeholder = "Username">';
     }
     echo '<input type="password" id="pwd" name="pwd" placeholder = "Password">';
     unset($_SESSION["signup_data"]);
@@ -30,14 +30,5 @@ function check_signup_errors()
         }
 
         unset($_SESSION['errors_signup']);
-    }
-}
-
-function check_account_created()
-{
-    if(isset($_GET["signup"]) && $_GET["signup"]==="success")
-    {
-        echo "<br>";
-        echo "<h1>Account Created!</h1>";
     }
 }

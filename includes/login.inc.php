@@ -7,43 +7,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     try 
     {
         require_once "dbh.inc.php";
+        require_once "login_model.inc.php";
+        require_once "login_contr.inc.php";
 
-        // Query to fetch user based on username
-        $query = "SELECT pwd FROM users WHERE username = :username";
+        $errors = [];
 
-        $stmt = $pdo->prepare($query);
-
-        $stmt->bindParam(":username", $username);
-
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) 
+        // ERROR HANDLERS
+        if(is_input_empty($username, $pwd))
         {
-            // Verify the password
-            if ($pwd == $user["pwd"]) 
-            {
-                // Start a session for the logged-in user
-                session_start();
-                $_SESSION["username"] = $username;
-        
-                header("Location: ../index.php");
-        
-                exit();
-            } 
-            else 
-            {
-                // Incorrect password
-                header("Location: ../login.html?error=IncorrectPassword");
-                exit();
-            }
-        } else 
-        {
-            // User not found
-            header("Location: ../login.html?error=UserNotFound");
-            exit();
+            $errors["empty_input"] = "Fill in all fields!";
         }
+        
+        $result = get_user($pdo, $username);
+
+        if(is_username_wrong($result))
+        {
+            $errors["login_incorrect"] = "Username does not exist!";
+        }
+        if(!is_username_wrong($result)&&is_password_wrong($pwd, $result["pwd"]))
+        {
+            $errors["login_incorrect"] = "Incorrect password!";
+        }
+
+        require_once "config_session.inc.php";
+
+        if($errors)
+        {
+            $_SESSION["errors_login"] = $errors;
+
+            header("Location: ../login.php");
+            die();
+        }
+
+        $newSessionId = session_create_id();
+        $sessionId = $newSessionId . "_" . $result["id"];
+        session_id($sessionId);
+
+        $_SESSION["user_id"] = $result["id"];
+        $_SESSION["user_username"] = htmlspecialchars($result["username"]);
+
+        $_SESSION["last_regeneration"]=time();
+
+        header("Location: ../index.php");
+
+        $pdo = null;
+        $stmt = null;
+
+        die();
     } catch (PDOException $e) 
     {
         die("Query Failed: " . $e->getMessage());

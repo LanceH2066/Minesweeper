@@ -1,3 +1,8 @@
+<?php
+    require_once 'includes/config_session.inc.php';
+    require_once 'includes/login_view.inc.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,10 +30,14 @@
         <input type="text" id="username" name="username">
 
         <label for ="pwd">Password:</label>
-        <input type="text" id="pwd" name="pwd">
+        <input type="password" id="pwd" name="pwd">
 
         <button id="userAuthBtn">Login</button>
     </form>
+
+    <?php
+        check_login_errors();
+    ?>
 
     <img id ="bulldog" src = "./img/Bulldog.png">
     <img id ="bomb" src = "./img/Bomb.png">
