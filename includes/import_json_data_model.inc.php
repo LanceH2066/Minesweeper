@@ -41,8 +41,9 @@ function insert_into_games($pdo, $game)
     if (!$exists) 
     {
         // Insert if the game does not exist
-        $query = "INSERT INTO games (user_id, start_time, end_time, result, time_spent) VALUES (:user_id, :start_time, :end_time, :result, :time_spent)";
+        $query = "INSERT INTO games (difficulty, user_id, start_time, end_time, result, time_spent) VALUES (:difficulty, :user_id, :start_time, :end_time, :result, :time_spent)";
         $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":difficulty", $game['difficulty']);
         $stmt->bindParam(":user_id", $game['user_id']);
         $stmt->bindParam(":start_time", $game['start_time']);
         $stmt->bindParam(":end_time", $game['end_time']);

@@ -49,6 +49,7 @@ try
         CREATE TABLE IF NOT EXISTS games (
             id INT(11) NOT NULL AUTO_INCREMENT,
             user_id INT(11),
+            difficulty ENUM('Easy', 'Medium', 'Hard') NOT NULL,
             start_time DATETIME NOT NULL,
             end_time DATETIME,
             result ENUM('win', 'lose') NOT NULL,

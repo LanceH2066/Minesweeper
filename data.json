@@ -1,23 +1,39 @@
 {
-    "users": [
-      { "username": "player1", "pwd": "pw1" },
-      { "username": "player2", "pwd": "pw2" },
-      { "username": "player3", "pwd": "pw3" },
-      { "username": "player4", "pwd": "pw4" }
-    ],
-    "leaderboard": [
-      { "username": "player1", "games_won": 5, "games_played": 10, "time_played": "02:45:30", "user_id": 1 },
-      { "username": "player2", "games_won": 3, "games_played": 8, "time_played": "01:15:45", "user_id": 2 },
-      { "username": "player3", "games_won": 7, "games_played": 12, "time_played": "03:10:20", "user_id": 3 },
-      { "username": "player4", "games_won": 1, "games_played": 5, "time_played": "00:45:15", "user_id": 4 }
-    ],
-    "games": [
-      { "user_id": 1, "start_time": "2024-11-19 10:00:00", "end_time": "2024-11-19 10:10:00", "result": "win", "time_spent": "00:10:00" },
-      { "user_id": 1, "start_time": "2024-11-19 11:00:00", "end_time": "2024-11-19 11:15:00", "result": "lose", "time_spent": "00:15:00" },
-      { "user_id": 2, "start_time": "2024-11-19 09:30:00", "end_time": "2024-11-19 09:50:00", "result": "win", "time_spent": "00:20:00" },
-      { "user_id": 3, "start_time": "2024-11-19 08:45:00", "end_time": "2024-11-19 09:00:00", "result": "lose", "time_spent": "00:15:00" },
-      { "user_id": 3, "start_time": "2024-11-19 12:00:00", "end_time": "2024-11-19 12:30:00", "result": "win", "time_spent": "00:30:00" },
-      { "user_id": 4, "start_time": "2024-11-19 07:00:00", "end_time": "2024-11-19 07:10:00", "result": "lose", "time_spent": "00:10:00" }
-    ]
-  }
-  
+  "users": [
+    { "username": "player1", "pwd": "pw1" },
+    { "username": "player2", "pwd": "pw2" },
+    { "username": "player3", "pwd": "pw3" },
+    { "username": "player4", "pwd": "pw4" },
+    { "username": "player5", "pwd": "pw5" },
+    { "username": "player6", "pwd": "pw6" }
+  ],
+  "leaderboard": [
+    { "username": "player1", "games_won": 5, "games_played": 10, "time_played": "02:45:30", "user_id": 1 },
+    { "username": "player2", "games_won": 3, "games_played": 8, "time_played": "01:15:45", "user_id": 2 },
+    { "username": "player3", "games_won": 7, "games_played": 12, "time_played": "03:10:20", "user_id": 3 },
+    { "username": "player4", "games_won": 1, "games_played": 5, "time_played": "00:45:15", "user_id": 4 },
+    { "username": "player5", "games_won": 4, "games_played": 9, "time_played": "01:50:10", "user_id": 5 },
+    { "username": "player6", "games_won": 6, "games_played": 14, "time_played": "03:25:40", "user_id": 6 }
+  ],
+  "games": [
+    { "user_id": 1, "difficulty": "Easy", "start_time": "2024-11-19 10:00:00", "end_time": "2024-11-19 10:10:00", "result": "win", "time_spent": "00:10:00" },
+    { "user_id": 1, "difficulty": "Medium", "start_time": "2024-11-19 11:00:00", "end_time": "2024-11-19 11:15:00", "result": "lose", "time_spent": "00:15:00" },
+    
+    { "user_id": 2, "difficulty": "Easy", "start_time": "2024-11-19 14:00:00", "end_time": "2024-11-19 14:20:00", "result": "win", "time_spent": "00:20:00" },
+
+    { "user_id": 3, "difficulty": "Easy", "start_time": "2024-11-19 08:45:00", "end_time": "2024-11-19 09:00:00", "result": "lose", "time_spent": "00:15:00" },
+    { "user_id": 3, "difficulty": "Hard", "start_time": "2024-11-19 12:00:00", "end_time": "2024-11-19 12:30:00", "result": "win", "time_spent": "00:30:00" },
+    { "user_id": 3, "difficulty": "Medium", "start_time": "2024-11-19 13:00:00", "end_time": "2024-11-19 13:20:00", "result": "win", "time_spent": "00:20:00" },
+    { "user_id": 3, "difficulty": "Easy", "start_time": "2024-11-19 15:00:00", "end_time": "2024-11-19 15:15:00", "result": "win", "time_spent": "00:15:00" },
+
+    { "user_id": 4, "difficulty": "Hard", "start_time": "2024-11-19 09:30:00", "end_time": "2024-11-19 10:00:00", "result": "lose", "time_spent": "00:30:00" },
+    { "user_id": 4, "difficulty": "Easy", "start_time": "2024-11-19 11:00:00", "end_time": "2024-11-19 11:15:00", "result": "win", "time_spent": "00:15:00" },
+
+    { "user_id": 5, "difficulty": "Hard", "start_time": "2024-11-19 10:00:00", "end_time": "2024-11-19 10:45:00", "result": "win", "time_spent": "00:45:00" },
+    { "user_id": 5, "difficulty": "Medium", "start_time": "2024-11-19 12:00:00", "end_time": "2024-11-19 12:30:00", "result": "win", "time_spent": "00:30:00" },
+
+    { "user_id": 6, "difficulty": "Easy", "start_time": "2024-11-19 09:00:00", "end_time": "2024-11-19 09:15:00", "result": "win", "time_spent": "00:15:00" },
+    { "user_id": 6, "difficulty": "Hard", "start_time": "2024-11-19 11:00:00", "end_time": "2024-11-19 11:40:00", "result": "lose", "time_spent": "00:40:00" },
+    { "user_id": 6, "difficulty": "Medium", "start_time": "2024-11-19 14:00:00", "end_time": "2024-11-19 14:30:00", "result": "win", "time_spent": "00:30:00" }
+  ]
+}
