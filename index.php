@@ -1,4 +1,6 @@
 <?php
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/import_json_data.inc.php';
     require_once 'includes/config_session.inc.php';
     require_once 'includes/login_view.inc.php';
 ?>
@@ -35,11 +37,7 @@
             <a href="help.html" class="button">How to Play</a>              <!-- Link to help.html -->
             <a href="login.php" class="button">Login</a>                   <!-- Link to login.php -->
             <a href="signup.php" class="button">Sign Up</a>                <!-- Link to signup.php -->
-
-            <form action="leaderboard.php" method="post">
-                <button class="button">Leaderboard</button>       
-            </form>
-            
+            <a href="leaderboard.php" class="button">Leaderboard</a>        <!-- Link to signup.php -->     
             <a href="contact.html" class="button">Contact Info</a>          <!-- Link to contact.html -->
         </div>
         <img id ="bulldog" src = "./img/Bulldog.png">

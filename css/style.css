@@ -410,6 +410,7 @@ input::placeholder
     width: 75%;
     height: 75%;
     text-align: center;
+    border: 1px white solid;
 }
 
 /* Leaderboard Table */
@@ -435,5 +436,25 @@ td
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 100%;
     margin: 0 auto;
+    border: 1px white solid;
+    gap: 10px;
+    margin-bottom: 0.5%;
+}
+.sortingForm button
+{
+    font-size: clamp(1rem, 0.5vw, 4rem); /* Scales font size */
+    font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
+    padding: 10px;
+    height: 10%;
+    width: 12%;
+    border-radius: 20px;
+    text-decoration: none;        /* Remove the underline */
+    color: white;
+    background-color: #c41230;
+    cursor: pointer;
+    border: none;
 }
