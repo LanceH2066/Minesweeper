@@ -325,20 +325,11 @@ class Game      // Main driver class for game
     winGame(status)   // Method to define win condition and do all win actions (win sound and text)
     {
         this.winSound.play();
-        updateLeaderboard("win", document.getElementById("time-display").innerText);
         this.endGame(status);
     }
     loseGame()  // Method to do lose actions (play explosion sound and text)
     {
         this.explosionSound.play();
-        updateLeaderboard("loss", document.getElementById("time-display").innerText);
         this.endGame("You Lost!");
-    }
-    updateLeaderboard(status, time) 
-    {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "../includes/update_leaderboard.php");
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send(`status=${status}&time=${time}`);
     }
 }
