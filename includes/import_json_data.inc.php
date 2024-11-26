@@ -17,14 +17,20 @@ try
         }
     }
 
-    foreach ($data['leaderboard'] as $entry) 
+    if(checkLeaderboardEmpty($pdo))
     {
-        insert_into_leaderboard($pdo, $entry);
+        foreach ($data['leaderboard'] as $entry) 
+        {
+            insert_into_leaderboard($pdo, $entry);
+        }
     }
 
-    foreach ($data['games'] as $game) 
+    if(checkGamesEmpty($pdo))
     {
-        insert_into_games($pdo, $game);
+        foreach ($data['games'] as $game) 
+        {
+            insert_into_games($pdo, $game);
+        }
     }
 
 } catch (PDOException $e) 

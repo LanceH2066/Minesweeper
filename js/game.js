@@ -161,7 +161,7 @@ class Game      // Main driver class for game
         this.firstMoveMade = false; // Check if game has started for: Music & Timer reasons
         this.flagsPlaced = 0;       // # of flags placed currently
         this.correctFlags = 0;      // # of flags on mines
-
+        this.difficultyName = difficulty.name;  // Name of difficulty for leaderboard 
         /* ---------------- TIMER --------------- */
         this.timerInterval = null;  // Initialize timer interval variable for use in timer method
         this.startTime = 0;         // Initialize startTime to 0, timer always starts at 0
@@ -221,6 +221,7 @@ class Game      // Main driver class for game
         {
             this.music.play();
             this.startTimer();
+            this.startTime = Date.now(); // Initialize the start time
             this.firstMoveMade = true;
         }
         // Get reference to current tile and change it to a clicked tile(css)
@@ -325,11 +326,67 @@ class Game      // Main driver class for game
     winGame(status)   // Method to define win condition and do all win actions (win sound and text)
     {
         this.winSound.play();
+        this.updateLeaderboard("win");
         this.endGame(status);
     }
     loseGame()  // Method to do lose actions (play explosion sound and text)
     {
         this.explosionSound.play();
+        this.updateLeaderboard("lose");
         this.endGame("You Lost!");
+    }
+    updateLeaderboard(result)
+    {
+        if (!this.startTime) return; // Ensure the timer has started
+        const now = Date.now(); // Get the current time
+        const elapsedTime = Math.floor((now - this.startTime) / 1000); // Calculate elapsed time in seconds
+    
+        // Process leaderboard update with elapsed time
+        console.log(`Updating leaderboard with elapsed time: ${elapsedTime} seconds`);
+    
+        const data = 
+        {
+            difficulty: this.difficultyName,
+            result: result,
+            time: elapsedTime
+        };
+
+        // Initialize an XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'includes/update_leaderboard.inc.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+    
+        xhr.onreadystatechange = function () 
+        {
+            if (xhr.readyState === 4) 
+            {
+                if (xhr.status === 200) 
+                {
+                    try 
+                    {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.status === 'success') 
+                        {
+                            console.log('Leaderboard updated:', response.message);
+                        } 
+                        else 
+                        {
+                            console.error('Error updating leaderboard:', response.message);
+                        }
+                    }
+                    catch (e) 
+                    {
+                        console.error('Invalid JSON response:', xhr.responseText);
+                    }
+                } 
+                else 
+                {
+                    console.error(`HTTP Error: ${xhr.status}`, xhr.statusText);
+                }
+            }
+        };
+    
+        // Send the JSON data
+        xhr.send(JSON.stringify(data));
     }
 }
