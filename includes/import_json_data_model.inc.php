@@ -41,11 +41,12 @@ function checkGamesEmpty($pdo)
 
 function insert_into_games($pdo, $game)
 {
-    $query = "INSERT INTO games (user_id, difficulty, result, time_spent) VALUES (:user_id, :difficulty, :result, :time_spent)";
+    $query = "INSERT INTO games (user_id, username, difficulty, result, time_played) VALUES (:user_id, :username, :difficulty, :result, :time_played)";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":user_id", $game['user_id']);
+    $stmt->bindParam(":username", $game['username']);
     $stmt->bindParam(":difficulty", $game['difficulty']);
     $stmt->bindParam(":result", $game['result']);
-    $stmt->bindParam(":time_spent", $game['time_spent']);
+    $stmt->bindParam(":time_played", $game['time_played']);
     $stmt->execute();
 }

@@ -10,7 +10,7 @@ function startGame()        // Function to start the game
     let customMines = document.getElementById("minesInput").value;  // Get # of mines from input
     let customDifficulty = difficulties[currentDifficulty];         // Get difficulty from input
     autoStart = document.getElementById("autoStart").checked;       // Get first move setting from input
-    if(customMines < customDifficulty.cols*customDifficulty.rows && customMines > 0) // Must be less mines than tiles and at least 1 mine
+    if(customMines < customDifficulty.cols*customDifficulty.rows && customMines >= difficulties[currentDifficulty].minesCount/2) // Must be less mines than tiles and at least 1 mine
     {
         customDifficulty.minesCount = Math.round(document.getElementById("minesInput").value); // Change the # of mines in the difficulty
         game = new Game(customDifficulty, winCondition);  // Start the new game
@@ -43,11 +43,11 @@ function startGame()        // Function to start the game
     }
     else if (customMines >= customDifficulty.cols*customDifficulty.rows) // More mines than tiles
     {
-        document.getElementById("minesError").innerText = "Must Have Less Mines Than Tiles!";
+        document.getElementById("minesError").innerText = "Must Have Less Mines Than Tiles! Max Mines: " + (difficulties[currentDifficulty].rows*difficulties[currentDifficulty].cols-1);
     }
     else   // 0 or less mines
     {
-        document.getElementById("minesError").innerText = "You Must Have at Least 1 Mine!";
+        document.getElementById("minesError").innerText = "You Must Have at Least " + difficulties[currentDifficulty].minesCount/2 + " Mines For " + difficulties[currentDifficulty].name + " Difficulty!";
     }
 
 }
@@ -337,12 +337,8 @@ class Game      // Main driver class for game
     }
     updateLeaderboard(result)
     {
-        if (!this.startTime) return; // Ensure the timer has started
         const now = Date.now(); // Get the current time
         const elapsedTime = Math.floor((now - this.startTime) / 1000); // Calculate elapsed time in seconds
-    
-        // Process leaderboard update with elapsed time
-        console.log(`Updating leaderboard with elapsed time: ${elapsedTime} seconds`);
     
         const data = 
         {
@@ -371,7 +367,7 @@ class Game      // Main driver class for game
                         } 
                         else 
                         {
-                            console.error('Error updating leaderboard:', response.message);
+                            console.log('Error updating leaderboard:', response.message);
                         }
                     }
                     catch (e) 

@@ -35,7 +35,7 @@ try
             username VARCHAR(30) NOT NULL,
             games_won INT(11) NOT NULL,
             games_played INT(11) NOT NULL,
-            time_played TIME NOT NULL,
+            time_played INT NOT NULL,
             user_id INT(11),
             PRIMARY KEY (id),
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
@@ -49,9 +49,10 @@ try
         CREATE TABLE IF NOT EXISTS games (
             id INT(11) NOT NULL AUTO_INCREMENT,
             user_id INT(11),
+            username VARCHAR(30) NOT NULL,
             difficulty ENUM('Easy', 'Medium', 'Hard') NOT NULL,
             result ENUM('win', 'lose') NOT NULL,
-            time_spent TIME NOT NULL,
+            time_played INT NOT NULL,
             PRIMARY KEY (id),
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
         );

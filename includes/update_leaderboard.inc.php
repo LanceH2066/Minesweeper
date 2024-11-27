@@ -9,8 +9,16 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $username = $_SESSION["user_username"];
-        $id = $_SESSION["user_id"];
+        if(isset( $_SESSION["user_username"]))
+        {
+            $username = $_SESSION["user_username"];
+            $id = $_SESSION["user_id"];
+        }
+        else
+        {
+            $username = null;
+            $id = null;
+        }
 
         if(!$username)
         {
@@ -39,12 +47,13 @@ if($_SERVER["REQUEST_METHOD"] =="POST")
             $gamesWon = 0;   
         }
 
-        $query = "INSERT INTO games (user_id, difficulty, result, time_spent) VALUES (:user_id, :difficulty, :result, :time_spent)";
+        $query = "INSERT INTO games (user_id,username, difficulty, result, time_played) VALUES (:user_id, :username, :difficulty, :result, :time_played)";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":user_id", $id);
+        $stmt->bindParam(":username", $username);
         $stmt->bindParam(":difficulty", $difficulty);
         $stmt->bindParam(":result", $result);
-        $stmt->bindParam(":time_spent", $time);
+        $stmt->bindParam(":time_played", $time);
         $stmt->execute();
 
         $checkQuery = "SELECT * FROM leaderboard WHERE user_id = :user_id";

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper Leaderboard</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="js/leaderboard.js"></script>
+</head>
+
+<body>
+    <div id = "topBar">
+        <a href="index.php">
+            <img id="logo" src="./img/Fresno State.PNG" alt="Fresno State Logo">
+        </a>        
+        <a href="index.php" class="inGameLinks">Main Menu</a>
+    </div>
+
+    <h1>Leaderboard</h1>
+    <div class="sortingButtons">
+        <button id="displayMode" data-mode="all_players">Display: All Players</button>
+        <div id="sortButtons"></div>
+    </div>
+
+    <div id="leaderboardContainer"></div>
+
+    <div id="nextPrev">
+        <button class="nextPrevBtn" id = "prev">Prev</button>
+        <button class="nextPrevBtn" id = "next">Next</button>
+    </div>
+
+</body>
+
+</html>
